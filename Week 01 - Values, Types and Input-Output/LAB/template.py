@@ -25,7 +25,7 @@ source_IP = input("Enter source IP: ")      # : replace with an input() call
 failed_login_attempts = int(input("Enter failed login attempts: "))     # : replace with an input() call, converted
 total_attempts = int(input("Enter total attempts: "))    # : replace with an input() call, converted
 
-
+# 
 # ================================================================== PROCESS
 # 2. Work out what you were NOT given.       [Typical and above]
 #
@@ -47,14 +47,32 @@ percent = (failed_login_attempts / total_attempts) * 100     #
 #
 #    Useful:   f"{value:>10.2f}"    right-aligned, 2 decimal places
 #              f"{value:>+10.2f}"   the same, but always shows the sign
+"""
 
+
+
+==================================
+  RECORD CHECK  -  srv-01
+==================================
+  Used        :      87.00
+  Total       :     120.00
+  Free        :      33.00
+  Percent     :      72.50 %
+==================================
+
+
+
+
+
+"""
 print()
 print("=" * 34)
 print(f"  RECORD CHECK  -  {source_IP}")
 print("=" * 34)
-
-# : your report lines go here
-
+print(f"  Used        : {failed_login_attempts:>10.2f}")
+print(f"  Total       : {total_attempts:>10.2f}")
+print(f"  Free        : {difference:>10.2f}")
+print(f"  Percent     : {percent:>10.2f} %")
 print("=" * 34)
 
 
