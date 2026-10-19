@@ -1,0 +1,116 @@
+"""
+Task 1: Quiz
+Suppose you want to develop a program to help a first grader practice addition, subtraction, multiplication, division, exponent or remainder. The user should have the option of choosing which mathematical operation they wish to practice. The program randomly generates two single-digit integers, number1 and number2, and of course the user will provide the answer to the question.
+
+The program should include:
+
+A menu allowing the student to choose the operation they want to practice (ideally included in function names or main).
+Functions for each of the mathematical operations.
+A score calculating correct answers.
+Error messages for situations such as division by zero.
+Functionality to keep practicing until the user decides otherwise.
+"""
+import random
+
+
+def add(a, b):
+    """Return a + b."""
+    return a + b
+
+
+def subtract(a, b):
+    """Return a - b."""
+    return a - b
+
+
+def multiply(a, b):
+    """Return a * b."""
+    return a * b
+
+
+def divide(a, b):
+    """Return the whole-number result of a divided by b."""
+    return a // b
+
+
+def power(a, b):
+    """Return a raised to the power b."""
+    return a ** b
+
+
+def remainder(a, b):
+    """Return the remainder of a divided by b."""
+    return a % b
+
+
+# menu number: (name, symbol shown in the question, function to use)
+OPERATIONS = {
+    "1": ("Addition", "+", add),
+    "2": ("Subtraction", "-", subtract),
+    "3": ("Multiplication", "*", multiply),
+    "4": ("Division (whole number, ignore the remainder)", "/", divide),
+    "5": ("Exponent", "**", power),
+    "6": ("Remainder", "%", remainder),
+}
+
+
+def show_menu():
+    """Print the menu of operations."""
+    print("\nChoose an operation to practise:")
+    for key, (name, symbol, operation) in OPERATIONS.items():
+        print(f"  {key}. {name}")
+    print("  7. Quit")
+
+
+def ask_question(symbol, operation):
+    """Ask one question. Return True if correct, False if wrong, None if skipped."""
+    number1 = random.randint(0, 9)
+    number2 = random.randint(0, 9)
+
+    try:
+        correct = operation(number1, number2)
+    except ZeroDivisionError:
+        print(f"{number1} {symbol} {number2} can't be done (division by zero). Skipping it.")
+        return None
+
+    try:
+        answer = int(input(f"What is {number1} {symbol} {number2}? "))
+    except ValueError:
+        print("That wasn't a whole number, so this question doesn't count.")
+        return None
+
+    if answer == correct:
+        print("Correct!")
+        return True
+    print(f"Wrong. The answer is {correct}.")
+    return False
+
+
+def main():
+    """Run the quiz until the user chooses to quit."""
+    score = 0
+    asked = 0
+
+    while True:
+        show_menu()
+        choice = input("Enter your choice (1-7): ").strip()
+
+        if choice == "7":
+            break
+        if choice not in OPERATIONS:
+            print("Invalid choice. Please enter a number from 1 to 7.")
+            continue
+
+        name, symbol, operation = OPERATIONS[choice]
+        result = ask_question(symbol, operation)
+
+        if result is not None:
+            asked += 1
+            if result:
+                score += 1
+        print(f"Score: {score}/{asked}")
+
+    print(f"\nFinal score: {score} out of {asked}. Well done!")
+
+
+main()
