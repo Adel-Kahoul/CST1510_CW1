@@ -11,7 +11,7 @@ Run it:   python template.py
 Work through the numbered sections in order. Each one tells you what it must do.
 Delete these instructions as you replace them with your code.
 """
-
+from pathlib import Path
 # =================================================================== FUNCTIONS
 # 1. Write parse_line(raw_line) that cleans and parses one raw, messy line
 #    into a dict. Handle inconsistent spacing and case - that is the whole
@@ -22,6 +22,29 @@ Delete these instructions as you replace them with your code.
 #    one-line docstring.
 
 # your function(s) go here
+def parse_line(raw_line):
+    line = raw_line.strip().lower()
+    record = {}
+    for piece in line.split(","):
+        if "=" not in piece:
+            continue
+        key, value = piece.split("=")
+        key = key.strip()
+        value = value.strip()
+        if key == "attempts":
+            try:
+                value = int(value)
+            except ValueError:
+                value = None
+        record[key] = value
+    return record
+def status_of(record, limit=10):
+    attempts = record.get("attempts") or 0
+    if record.get("result") == "failed" and  attempts >= limit:
+      return "FLAGGED"
+    return "OK"  
+
+
 
 
 # ====================================================================== INPUT
@@ -35,7 +58,12 @@ Delete these instructions as you replace them with your code.
 #    Excellent: save these lines to a file and load them with open() /
 #    a for loop over the file, instead of writing them directly here.
 
+RECORDS_FILE = Path(__file__).parent / "cyber_records.txt"
 raw_records = []   # replace with your code
+with open(RECORDS_FILE) as file:
+    for line in file:
+        if line.strip() != "":
+            raw_records.append(line)
 
 
 # =============================================================== PROCESS + OUTPUT
@@ -45,9 +73,14 @@ raw_records = []   # replace with your code
 #    Typical   : also call status_of(...) for each, print it alongside.
 #    Excellent : print a one-line summary at the end - how many records,
 #                how many flagged.
-
+flagged_count = 0
 for raw_record in raw_records:
-    pass   # replace with your code
+    record = parse_line(raw_record)
+    status = status_of(record)
+    print(record, "->", status)
+    if status == "FLAGGED":
+        flagged_count += 1
+print(f"{len(raw_records)} records processed, {flagged_count} flagged.")  # replace with your code
 
 
 # ==========================================================================

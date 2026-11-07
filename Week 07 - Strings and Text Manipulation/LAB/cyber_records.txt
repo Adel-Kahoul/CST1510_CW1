@@ -1,0 +1,5 @@
+   SRC=10.0.0.5 ,  ATTEMPTS=12 ,RESULT=FAILED   
+src = 10.0.0.9,Attempts = 3,  Result = Success
+SrC=10.0.0.5,aTTemPts=twelve,rEsUlT=Failed,
+	SRC=192.168.1.7,	ATTEMPTS=	40,RESULT=FAILED
+SRC = 10.0.0.8 ,ATTEMPTS=010,RESULT = failed
